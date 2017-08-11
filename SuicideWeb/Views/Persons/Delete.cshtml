@@ -1,0 +1,57 @@
+﻿@model SuicideWeb.Models.Person
+
+@{
+    ViewBag.Title = "Удаление персоны";
+}
+
+<h2>Удаление персоны</h2>
+
+<h3>Вы уверены что хотите удалить персону?</h3>
+<div>
+    <h4>Персона</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthDay)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BirthDay)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VkId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VkId)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-default" /> |
+            @Html.ActionLink("Вернуться в список", "Index", "Groups")
+        </div>
+    }
+</div>

@@ -1,0 +1,62 @@
+﻿@model IEnumerable<SuicideWeb.Models.Person>
+
+@{
+    ViewBag.Title = "Подробнее";
+}
+
+<h2>Список персон</h2>
+
+<p>
+    @Html.RouteLink("Добавить персону", new { controller = "Persons", action="Create" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PersonId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Gender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BirthDay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VkId)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        if (item.GroupId == ViewBag.GroupID)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersonId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BirthDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VkId)
+            </td>
+            <td>
+                @Html.ActionLink("Редактировать", "Edit", "Persons", new { id = item.PersonId }, null) |
+                @Html.ActionLink("Подробнее", "Details", "Persons",  new { id = item.PersonId }, null) |
+                @Html.ActionLink("Удалить", "Delete", "Persons", new { id = item.PersonId }, null) |
+                @Html.ActionLink("Анализ", "Person", "Scan", new { id = item.PersonId }, null)
+            </td>
+        </tr>
+        }
+    }
+
+</table>

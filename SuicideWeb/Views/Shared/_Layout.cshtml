@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Keep Life</title>
+    <link rel="shortcut icon" href="~/Content/images/logo.ico" type="image/x-icon">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />  
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+        }
+
+        #footer {
+            bottom: 0;
+        }
+
+            #footer p {
+                text-align: center;
+            }
+
+        .body-content {
+            height: 100%;
+        }
+
+        .navbar-toggle {
+            margin-top: 20px;
+        }
+
+        .link {
+            margin-top: 14px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#responsive-menu">
+                    <span class="sr-only">Open the Navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-brand">
+                    <img class="logo" src="~/Content/images/logo.png" />
+                    @Html.ActionLink("KeepLife", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", @style = "font-size: 25px" })
+                </div>
+            </div>
+            <div class="collapse navbar-collapse" id="responsive-menu">
+                <ul class="nav navbar-nav">
+                    <li class="link">@Html.RouteLink("Все группы", new { controller = "Groups", action = "Index" })</li>
+                    <li class="link">@Html.RouteLink("Все персоны", new { controller = "Persons", action = "Index" })</li class="link">
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <div id="footer">
+            <hr />
+            <p>&copy; @DateTime.Now.Year - <a href="https://vk.com/anomind" >Kadyrkesh Sultan </a> </p>
+        </div>
+    </div>
+
+
+
+</body>
+</html>

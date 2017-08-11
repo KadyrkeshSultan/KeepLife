@@ -1,0 +1,32 @@
+﻿@model SuicideWeb.Models.Group
+
+@{
+    ViewBag.Title = "Удаление группы";
+}
+
+<h2>Удаление группы</h2>
+
+<h3>Вы уверены что хотите удалить группу?</h3>
+<div>
+    <h4>Группа</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-default" /> |
+            @Html.ActionLink("Вернуться в список", "Index")
+        </div>
+    }
+</div>

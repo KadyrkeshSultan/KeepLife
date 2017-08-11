@@ -1,0 +1,62 @@
+﻿@model SuicideWeb.Models.ResultScan
+@{
+    ViewBag.Title = "Результат сканирования";
+}
+
+<h2>Результат сканирования</h2>
+<h3>Сведения</h3>
+<p>Пользователь : @Model.User</p>
+<p>Совпадений по тезаурусу : @Model.MatchesDic</p>
+<p>Совпадений по группам : @Model.MatchesGroups</p>
+<p>Уровень критичности : @Model.Level</p>
+<p>Статус : </p>@Model.TextStatus<br /> <br />
+<p>Найденные предложения:</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th><span>В тезаурусе:</span></th>
+            <th><span>Оригинал:</span></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><span id="thesaurus">@Model.InThesaurus</span></td>
+            <td><span id="original">@Model.Original</span></td>
+        </tr>
+    </tbody>
+</table>
+
+
+<br />
+<br />
+<p>Запись со стены</p>
+<pre>@Model.TextWall</pre>
+
+<script>
+    var wordEl = $("#original").get(0);
+    var textEl = $('pre').get(0);
+
+    var word = wordEl.innerText;
+    var text = textEl.innerText;
+
+
+
+    word = word.split("|");
+
+    console.log(word);
+    console.log(word.length);
+    for (var i = 0; i < word.length - 1; i++) {
+        text = text.replace(word[i], '<span class="res">' + word[i] + '</span>');
+    }
+    
+
+
+    textEl.innerHTML = text;
+</script>
+
+<style>
+    span.res {
+        color: red;
+    }
+</style>
+

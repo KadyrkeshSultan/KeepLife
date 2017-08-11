@@ -1,0 +1,76 @@
+﻿body {
+    padding-top: 80px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+@media only screen and (max-width : 320px) {
+    .grp-row::before {
+        content: '> ';
+    }
+
+    img.logo {
+        display: none;
+    }
+
+    .btn-submit {
+        margin-top: 10px;
+    }
+}
+
+#getId {
+    margin-top: 20px;
+}
+
+@media only screen and (max-width : 480px) {
+    .grp-row::before {
+        content: '> ';
+    }
+
+    .row {
+        margin-top: 20px;
+    }
+
+    .btn-submit {
+        margin-top: 10px;
+    }
+}
+
+.telegram-bot-box{
+margin: 0 auto; 
+    width: 200px;
+    height: 75px;
+    border-radius:5px;
+    border: 1px solid #222222;
+}
+
+.fa {
+    margin: 5px 5px 5px 5px;
+    font-size: 40px;
+    display:inline-block;
+}
+
+.ID {
+    margin: 0 auto;
+    padding: 10px 15px;
+}
+
+.telegram-bot-box{
+    margin:0 auto;
+}
+
+.control {
+    display: unset;
+}

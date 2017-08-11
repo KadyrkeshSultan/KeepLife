@@ -1,0 +1,51 @@
+﻿@model SuicideWeb.Models.Person
+
+@{
+    ViewBag.Title = "Подробнее";
+}
+
+<h2>Подробнее</h2>
+
+<div>
+    <h4>Персона</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthDay)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BirthDay)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VkId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VkId)
+        </dd>
+
+    </dl>
+</div>
+<p
+    @Html.ActionLink("Редактировать", "Edit", "Persons", new { id = Model.PersonId }, null) |
+    @Html.ActionLink("Вернуться в список", "Index", "Groups")
+</p>

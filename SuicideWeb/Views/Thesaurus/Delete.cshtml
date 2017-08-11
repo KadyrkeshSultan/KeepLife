@@ -1,0 +1,32 @@
+﻿@model SuicideWeb.Models.Thesaurus
+
+@{
+    ViewBag.Title = "Удалить предложение";
+}
+
+<h2>Удалить предложение</h2>
+
+<h3>Вы уверены что хотите удалить?</h3>
+<div>
+    <h4>Тезаурус</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Senten)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Senten)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-default" /> |
+            @Html.ActionLink("Назад", "Index")
+        </div>
+    }
+</div>
