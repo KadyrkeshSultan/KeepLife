@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using VkNet;
-using VkNet.Enums.Filters;
 using DuoVia.FuzzyStrings;
 using System.Collections.Generic;
 
@@ -14,26 +13,12 @@ namespace SuicideWeb.Controllers
     {
         private DataBaseContext db = new DataBaseContext();
         private static VkApi app;
-        Wall wall;
         public List<Thesaurus> listSen;
         public List<BlackGroup> blackGroups;
 
         private void Authorize()
         {
-            app = new VkApi();
-
-            ulong appID = 5984263;
-            string login = "87022365516";
-            string pass = "13071307";
-            Settings set = Settings.All;
-
-            app.Authorize(new ApiAuthParams
-            {
-                ApplicationId = appID,
-                Login = login,
-                Password = pass,
-                Settings = set
-            });
+            app = AuthorizeVk.app;
             listSen = db.Thesauruss.ToList();
             blackGroups = db.BlackGroups.ToList();
         }

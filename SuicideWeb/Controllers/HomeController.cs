@@ -1,7 +1,7 @@
-﻿using System.Net;
+﻿using SuicideWeb.Models;
+using System.Net;
 using System.Web.Mvc;
 using VkNet;
-using VkNet.Enums.Filters;
 
 namespace SuicideWeb.Controllers
 {
@@ -18,28 +18,8 @@ namespace SuicideWeb.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            VkApi app = new VkApi();
-
-
-            ulong appID = 5984263;
-            string login = "87022365516";
-            string pass = "13071307";
-            Settings set = Settings.All;
-            try
-            {
-                app.Authorize(new ApiAuthParams
-                {
-                    ApplicationId = appID,
-                    Login = login,
-                    Password = pass,
-                    Settings = set
-                });
-            }
-            catch
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.Conflict);
-            }
-
+            VkApi app = AuthorizeVk.app;
+            
             VkNet.Model.User user;
             try
             {

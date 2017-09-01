@@ -168,6 +168,7 @@
       <DependentUpon>201708101838079_MigrateDB.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AuthorizeVk.cs" />
     <Compile Include="Models\BlackGroup.cs" />
     <Compile Include="Models\DataBaseContext.cs" />
     <Compile Include="Models\Group.cs" />
