@@ -134,7 +134,6 @@ namespace SuicideWeb.Controllers
             if (disposing)
             {
                 db.Dispose();
-                app.Dispose();
             }
             base.Dispose(disposing);
         }
