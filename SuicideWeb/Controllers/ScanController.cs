@@ -6,15 +6,37 @@ using System.Web.Mvc;
 using VkNet;
 using VkNet.Enums.Filters;
 using DuoVia.FuzzyStrings;
-using System.Data.Entity;
 using System.Collections.Generic;
-using System;
 
 namespace SuicideWeb.Controllers
 {
     public class ScanController : Controller
     {
         private DataBaseContext db = new DataBaseContext();
+        private static VkApi app;
+        Wall wall;
+        public List<Thesaurus> listSen;
+        public List<BlackGroup> blackGroups;
+
+        private void Authorize()
+        {
+            app = new VkApi();
+
+            ulong appID = 5984263;
+            string login = "87022365516";
+            string pass = "13071307";
+            Settings set = Settings.All;
+
+            app.Authorize(new ApiAuthParams
+            {
+                ApplicationId = appID,
+                Login = login,
+                Password = pass,
+                Settings = set
+            });
+            listSen = db.Thesauruss.ToList();
+            blackGroups = db.BlackGroups.ToList();
+        }
         // GET: Scan 
         public ActionResult Index()
         {
@@ -29,79 +51,16 @@ namespace SuicideWeb.Controllers
             }
 
             var persons = db.Persons.Where(p => p.GroupId == id);
-            #region Authorize 
-            VkApi app = new VkApi();
-
-
-            ulong appID = 5984263;
-            string login = "87022365516";
-            string pass = "13071307";
-            Settings set = Settings.All;
-            try
-            {
-                app.Authorize(new ApiAuthParams
-                {
-                    ApplicationId = appID,
-                    Login = login,
-                    Password = pass,
-                    Settings = set
-                });
-            }
-            catch
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.Conflict);
-            }
-            #endregion
+            Authorize();
             ResultScan[] result = new ResultScan[persons.Count()];
-            string[] compareSenten;
-            Wall wall;
-            var listSen = db.Thesauruss.ToList();
+
             int count = 0;
-            var dba = db.BlackGroups.ToList();
             foreach (var person in persons)
             {
-                result[count] = new ResultScan();
-                try
-                {
-                    result[count].UserId = person.PersonId;
-                    result[count].User = person.Name;
-                    result[count].TextStatus = app.Status.Get(person.VkId).Text;
-                    wall = new Wall(app, person.VkId);
-                    compareSenten = wall.GetTextWall().ToLower().Split('.', '\n');
-                    var groups = app.Groups.Get(person.VkId);
-
-                    foreach (var g in groups)
-                    {
-                        foreach (var bg in dba)
-                            if (g.Id == bg.GroupId)
-                                result[count].MatchesGroups++;
-                    }
-
-                    foreach (string textS in result[count].TextStatus.Split('.'))
-                        foreach (var compare in listSen)
-                        {
-                            var dice = textS.LongestCommonSubsequence(compare.Senten);
-                            if (dice.Item2 > 0.20)
-                                result[count].MatchesDic++;
-                        }
-                }
-                catch
-                {
-                    compareSenten = null;
-                }
-                if (compareSenten != null)
-                    foreach (string senten in compareSenten)
-                    {
-                        if (senten != "")
-                            foreach (var compare in listSen)
-                            {
-                                var dice = senten.LongestCommonSubsequence(compare.Senten);
-                                if (dice.Item2 > 0.20)
-                                    result[count].MatchesDic++;
-                            }
-                    }
+                result[count] = GetResultPerson(person);
                 count++;
             }
+                
             return View(result);
         }
 
@@ -117,37 +76,19 @@ namespace SuicideWeb.Controllers
             {
                 return HttpNotFound();
             }
-            #region Authorize 
-            VkApi app = new VkApi();
+            Authorize();
+            return View(GetResultPerson(person));
+        }
 
-
-            ulong appID = 5984263;
-            string login = "87022365516";
-            string pass = "13071307";
-            Settings set = Settings.All;
-            try
-            {
-                app.Authorize(new ApiAuthParams
-                {
-                    ApplicationId = appID,
-                    Login = login,
-                    Password = pass,
-                    Settings = set
-                });
-            }
-            catch
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.Conflict);
-            }
-            #endregion
+        private ResultScan GetResultPerson(Person person)
+        {
             ResultScan result = new ResultScan();
             string[] compareSenten;
             Wall wall;
-            var listSen = db.Thesauruss.ToList();
-            var dbs = db.BlackGroups.ToList();
 
             try
             {
+                result.UserId = person.PersonId;
                 result.User = person.Name;
                 result.TextStatus = app.Status.Get(person.VkId).Text;
                 result.MatchesDic = 0;
@@ -157,11 +98,8 @@ namespace SuicideWeb.Controllers
                 compareSenten = result.TextWall.Split('\n', '.');
 
                 foreach (var g in groups)
-                {
-                    foreach (var bg in dbs)
-                        if (g.Id == bg.GroupId)
-                            result.MatchesGroups++;
-                }
+                    if (blackGroups.FirstOrDefault(bg => bg.GroupId == g.Id) != null)
+                        result.MatchesGroups++;
             }
             catch
             {
@@ -182,8 +120,7 @@ namespace SuicideWeb.Controllers
                         }
                     }
             if (compareSenten != null)
-                foreach (string senten in
-                compareSenten)
+                foreach (string senten in compareSenten)
                 {
                     if (senten != "")
                         foreach (var compare in listSen)
@@ -203,15 +140,16 @@ namespace SuicideWeb.Controllers
                 result.Level = ResultScan.SeverityLevel.Средний;
             else
                 result.Level = ResultScan.SeverityLevel.Высокий;
-            return View(result);
-        }
 
+            return result;
+        }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
                 db.Dispose();
+                app.Dispose();
             }
             base.Dispose(disposing);
         }
